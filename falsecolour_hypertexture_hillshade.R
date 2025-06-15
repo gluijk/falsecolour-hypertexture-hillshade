@@ -168,7 +168,7 @@ image(t(hillshade[nrow(hillshade):1,]), useRaster=TRUE,
 
 #################################################
 
-# 4. GENERATE COMPOSITE (FALSE) COLOUR HILLSHADE (IDEA FROM JOHN NELSON)
+# 4. GENERATE FALSE COLOUR HILLSHADE (IDEA FROM JOHN NELSON)
 
 hillshadeW =hillshademap(DEM, dx=RESOLUTION, dlight=270)
 hillshadeNW=hillshademap(DEM, dx=RESOLUTION, dlight=-45)
