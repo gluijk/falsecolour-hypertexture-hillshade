@@ -1,11 +1,10 @@
 # False colour and Hyper texture hillshades
 # www.overfitting.net
-# https://www.overfitting.net/
+# https://www.overfitting.net/2025/06/falso-color-e-hiper-texturizacion-de.html
 
 library(data.table)  # fread()
 library(terra)  # build blur and resample functions
 library(tiff)  # save 16-bit TIFF's
-library(png)  # save 8-bit PNG's
 
 
 # Hillshade calculation
