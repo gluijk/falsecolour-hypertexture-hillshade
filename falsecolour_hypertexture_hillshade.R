@@ -149,6 +149,11 @@ rm(DEMrs)
 writeTIFF(DEM/max(DEM), "tenerifecomposite_fullHD.tif",  # 2160x3840 (2x FullHD)
           bits.per.sample=16, compression="LZW")
 
+# Solid map
+solid=DEM
+solid[solid>0]=1
+writeTIFF(solid, "solid.tif", compression="LZW")
+
 
 #################################################
 
@@ -168,7 +173,7 @@ image(t(hillshade[nrow(hillshade):1,]), useRaster=TRUE,
 
 #################################################
 
-# 4. GENERATE FALSE COLOUR HILLSHADE (ORIGINAL IDEA BY JOHN NELSON)
+# 4. GENERATE FALSE COLOUR HILLSHADE (IDEA FROM JOHN NELSON)
 
 hillshadeW =hillshademap(DEM, dx=RESOLUTION, dlight=270)
 hillshadeNW=hillshademap(DEM, dx=RESOLUTION, dlight=-45)
@@ -176,12 +181,13 @@ hillshadeN =hillshademap(DEM, dx=RESOLUTION, dlight=0)
 img=replicate(3, hillshadeW)  # W lighting -> R channel
 img[,,2]=hillshadeNW  # NW lighting -> G channel
 img[,,3]=hillshadeN  # N lighting -> B channel
+img[replicate(3, solid==0)]=0.2
 writeTIFF(img, "hillshadecolour.tif", bits.per.sample=16, compression="LZW")
 
 
 #################################################
 
-# 5. HILLSHADE OF A HILLSHADE (ORIGINAL IDEA BY CHRIS CHURCHILL)
+# 5. HILLSHADE OF A HILLSHADE
 
 hillshadeNW =hillshademap(DEM, dx=RESOLUTION, dlight=c(-1,-1))
 writeTIFF(hillshadeNW, "hillshadeNW.tif", bits.per.sample=16, compression="LZW")
