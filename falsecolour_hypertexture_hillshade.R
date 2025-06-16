@@ -173,7 +173,7 @@ image(t(hillshade[nrow(hillshade):1,]), useRaster=TRUE,
 
 #################################################
 
-# 4. GENERATE FALSE COLOUR HILLSHADE (IDEA FROM JOHN NELSON)
+# 4. GENERATE FALSE COLOUR HILLSHADE (ORIGINAL IDEA BY JOHN NELSON)
 
 hillshadeW =hillshademap(DEM, dx=RESOLUTION, dlight=270)
 hillshadeNW=hillshademap(DEM, dx=RESOLUTION, dlight=-45)
@@ -181,18 +181,17 @@ hillshadeN =hillshademap(DEM, dx=RESOLUTION, dlight=0)
 img=replicate(3, hillshadeW)  # W lighting -> R channel
 img[,,2]=hillshadeNW  # NW lighting -> G channel
 img[,,3]=hillshadeN  # N lighting -> B channel
-img[replicate(3, solid==0)]=0.2
+
+img[replicate(3, solid==0)]=0.2  # darken sea
 writeTIFF(img, "hillshadecolour.tif", bits.per.sample=16, compression="LZW")
 
 
 #################################################
 
-# 5. HILLSHADE OF A HILLSHADE
+# 5. HILLSHADE OF A HILLSHADE (ORIGINAL IDEA BY CARL CHURCHILL)
 
 hillshadeNW =hillshademap(DEM, dx=RESOLUTION, dlight=c(-1,-1))
 writeTIFF(hillshadeNW, "hillshadeNW.tif", bits.per.sample=16, compression="LZW")
 
 hillshadeofhill=hillshademap(hillshadeNW*MAXIMO, dx=RESOLUTION, dlight=c(-1,-1))
 writeTIFF(hillshadeofhill, "hillshadeofhill.tif", bits.per.sample=16, compression="LZW")
-
-
